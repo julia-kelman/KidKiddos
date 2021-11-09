@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class mainPageTest extends UseCaseBase {
     public static MainPage mainPage;
+    public static LoginPage loginPage;
+    public static CartPage cartPage;
+    public static CreateAccountForm createAccountForm;
 
     @BeforeAll
     public static void classSetup(){
@@ -35,24 +38,28 @@ public class mainPageTest extends UseCaseBase {
 
     @Test
     public void loginPageLoadTest(){
-        LoginPage LoginPage=MainPage.openLoginPage();
-        boolean isLoaded=LoginPage.isLoginHeaderVisible();
+        LoginPage loginPage=mainPage.openLoginPage();
+        boolean isLoaded=loginPage.isLoginHeaderVisible();
             assertTrue(isLoaded);
         }
 
     @Test
-    public void createAccountFormVisible() throws InterruptedException {
-        CreateAccountForm createAccountForm=mainPage.opencreateAcountForm();
-        boolean isVisible=createAccountForm.createAccountFormVisible();
+    public void userLoginTest() {
+        loginPage.emailFieldInput("jk@gmail.com");
+        loginPage.passwordInputField("Abc123");
+        loginPage.createAccountButton();
+        boolean isVisible=loginPage.isLoginHeaderVisible();
         assertTrue(isVisible);
     }
 
     @Test
-    public void createNewAccountTest() throws InterruptedException {
-        CreateAccountForm createAccountForm=mainPage.fillOutNewAccountForm();
+    public void createNewAccountTest() {
+        mainPage.inputName("kgjkf");
         boolean isCreated=createAccountForm.createNewAccount();
         assertTrue(isCreated);
     }
+
+
 
     @Test
     public void loginToNewAccountTest() throws InterruptedException {
@@ -96,21 +103,21 @@ public class mainPageTest extends UseCaseBase {
 
     @Test
     public void cartPageTest(){
-        CartPage cartPage=MainPage.openCartPage();
+        CartPage cartPage=mainPage.openCartPage();
         boolean isVisible=cartPage.isCartHeaderVisible();
         assertTrue(isVisible);
     }
 
     @Test
     public void countryTest() throws InterruptedException {
-        CartPage cartPage=MainPage.chooseBRLcountry();
+        CartPage cartPage=mainPage.chooseBRLcountry();
         boolean isVisible=cartPage.isBRLbookVisible();
         assertTrue(isVisible);
     }
 
     @Test
     public void autoCountryTest() throws InterruptedException {
-        CartPage cartPage=MainPage.chooseAutoCurrency();
+        CartPage cartPage=mainPage.chooseAutoCurrency();
         String canada=cartPage.isCandaianFlagVisible();
         assertEquals(canada,cartPage);
         System.out.println(" ");
