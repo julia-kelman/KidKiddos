@@ -113,6 +113,7 @@ public class mainPageTest extends UseCaseBase {
         CartPage cartPage=MainPage.chooseAutoCurrency();
         String canada=cartPage.isCandaianFlagVisible();
         assertEquals(canada,cartPage);
+        System.out.println(" ");
     }
 
     }
