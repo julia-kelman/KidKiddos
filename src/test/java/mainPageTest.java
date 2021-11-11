@@ -1,14 +1,11 @@
 import Pages.*;
 import Pages.CreateAccountForm;
 import Utlis.UseCaseBase;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -43,6 +40,20 @@ public class mainPageTest extends UseCaseBase {
             assertTrue(isLoaded);
         }
 
+
+    @Test
+    public void createNewAccountTest() {
+        mainPage.openLoginPage();
+        loginPage.createAccountButton();
+       createAccountForm.inputName("Julia");
+       createAccountForm.inputLastName("Kelman");
+       createAccountForm.inputEmailField("jk@gmail.com");
+       createAccountForm.inputPasswordField("Abc123");
+       createAccountForm.clickCreateButton();
+        boolean isVisible=createAccountForm.newAccountPageHeaderVisible();
+        assertTrue(isVisible);
+    }
+
     @Test
     public void userLoginTest() {
         loginPage.emailFieldInput("jk@gmail.com");
@@ -52,71 +63,107 @@ public class mainPageTest extends UseCaseBase {
         assertTrue(isVisible);
     }
 
-    @Test
-    public void createNewAccountTest() {
-        mainPage.inputName("kgjkf");
-        boolean isCreated=createAccountForm.createNewAccount();
-        assertTrue(isCreated);
-    }
-
-
 
     @Test
-    public void loginToNewAccountTest() throws InterruptedException {
-        LoginPage loginPage=mainPage.loginToNewAccount();
+    public void incorrectLoginTest() {
+        //incorrect email:
+        loginPage.emailFieldInput("jk@gamil.ca");
+        loginPage.passwordInputField("Abc123");
+        loginPage.createAccountButton();
         boolean isVisible=loginPage.isIncorrectErrorVisible();
         assertTrue(isVisible);
     }
 
-    //First name field test
+
+    //First name field negative tests:
     @ParameterizedTest
-    @ValueSource(strings= {"Juli", "", "98", "%^&", "hhfjhjfjdnfsjbgjdbgfjbjk", "  ", "123ggg", "$$$$kkkkk" })
-    public void firstNameInputTest(String a) throws InterruptedException {
-        CreateAccountForm createAccountForm=mainPage.firstNameInputTest(a);
-        boolean isCreated=createAccountForm.createNewAccount();
-        assertTrue(isCreated);
+    @ValueSource(strings= {"", "98", "%^&", "  ", "123ggg", "$$$$kkkkk", "hhfjhjfjdnfsjbgjdbgfjbjkkfnkdsfkkfmlksfdmlksfnkflnklfngkfnkdsfnkfdnklsd" })
+    public void firstNameInputTest(String a) {
+        createAccountForm.inputName(a);
+        createAccountForm.inputLastName("Kelman");
+        createAccountForm.inputEmailField("jk@gmail.com");
+        createAccountForm.inputPasswordField("Abc123");
+        createAccountForm.clickCreateButton();
+        boolean isVisible=createAccountForm.errorLoginVisible();
+        assertTrue(isVisible);
+//test failed! possible to create account without first name field input
     }
 
+
+    //Last name negative tests
     @ParameterizedTest
-    @ValueSource(strings= {"Juli", "", "98", "%^&", "hhfjhjfjdnfsjbgjdbgfjbjk", "  ", "123ggg", "$$$$kkkkk" })
-    public void lastNameInputTest(String a) throws InterruptedException {
-        CreateAccountForm createAccountForm=mainPage.lastNameInputTest(a);
-        boolean isCreated=createAccountForm.createNewAccount();
-        assertTrue(isCreated);
+    @ValueSource(strings= {"", "98", "%^&", "  ", "123ggg", "$$$$kkkkk", "hhfjhjfjdnfsjbgjdbgfjbjkkfnkdsfkkfmlksfdmlksfnkflnklfngkfnkdsfnkfdnklsd" })
+    public void lastNameInputTest(String a) {
+        createAccountForm.inputName("Jul");
+        createAccountForm.inputLastName(a);
+        createAccountForm.inputEmailField("jk@gmail.com");
+        createAccountForm.inputPasswordField("Abc123");
+        createAccountForm.clickCreateButton();
+        boolean isVisible=createAccountForm.emptyEmailError();
+        assertTrue(isVisible);
+
     }
 
+    //Email negative tests
     @ParameterizedTest
     @ValueSource(strings= {"jk@gmailcom", "jkgmail.com", ".jk@gmail.com", "jk@.com"})
-    public void emailNameInputTest(String a) throws InterruptedException {
-        CreateAccountForm createAccountForm=mainPage.emailInputTest(a);
-        boolean isCreated=createAccountForm.createNewAccount();
-        assertTrue(isCreated);
+    public void emailNameInputTest(String a){
+        createAccountForm.inputName("Jul");
+        createAccountForm.inputLastName("Kel");
+        createAccountForm.inputEmailField(a);
+        createAccountForm.inputPasswordField("Abc123");
+        createAccountForm.clickCreateButton();
+        boolean isVisible=createAccountForm.emptyEmailError();
+        assertTrue(isVisible);
     }
 
+    @Test
+    public void sameEmailRegister(){
+        boolean isVisible=createAccountForm.sameEmailRegistr();
+        assertTrue(isVisible);
+    }
+
+    @Test
+    public void forgotPasswordTest() {
+        mainPage.openLoginPage();
+        boolean isVisible=loginPage.forgotPasswordButton();
+       assertTrue(isVisible);
+    }
+
+        //Password negative tests
     @ParameterizedTest
     @ValueSource(strings= {"Abc123", "Abc123$", "abcdefg", "123456","$$$$$$$$", "", "  "})
-    public void passwordInputTest(String a) throws InterruptedException {
-        CreateAccountForm createAccountForm=mainPage.passwordInputTest(a);
-        boolean isCreated=createAccountForm.createNewAccount();
-        assertTrue(isCreated);
+    public void passwordInputTest(String a) {
+        createAccountForm.inputName("Jul");
+        createAccountForm.inputLastName("Kel");
+        createAccountForm.inputEmailField("jk@gmail.com");
+        createAccountForm.inputPasswordField(a);
+        createAccountForm.clickCreateButton();
+        boolean isVisible=createAccountForm.emptyPasswordError();
+        assertTrue(isVisible);
+    }
+
+    @Test
+    public void flagsMenuTest(){
+        boolean isVisible=mainPage.openCurrencyMenu();
+        assertTrue(isVisible);
     }
 
     @Test
     public void cartPageTest(){
-        CartPage cartPage=mainPage.openCartPage();
+        mainPage.openCartPage();
         boolean isVisible=cartPage.isCartHeaderVisible();
         assertTrue(isVisible);
     }
 
     @Test
-    public void countryTest() throws InterruptedException {
-        CartPage cartPage=mainPage.chooseBRLcountry();
+    public void countryTest() {
         boolean isVisible=cartPage.isBRLbookVisible();
         assertTrue(isVisible);
     }
 
     @Test
-    public void autoCountryTest() throws InterruptedException {
+    public void autoCountryTest() {
         CartPage cartPage=mainPage.chooseAutoCurrency();
         String canada=cartPage.isCandaianFlagVisible();
         assertEquals(canada,cartPage);
