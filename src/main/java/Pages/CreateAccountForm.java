@@ -41,7 +41,6 @@ public class CreateAccountForm extends BasePage {
     }
 
     public boolean newAccountPageHeaderVisible() {
-
         return elementExists(createdAccountHeader);
     }
 
@@ -61,6 +60,4 @@ public class CreateAccountForm extends BasePage {
         return elementExists(errorLogin);
         //no error appeared when
     }
-
-
 }

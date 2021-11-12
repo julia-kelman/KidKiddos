@@ -29,36 +29,24 @@ public class mainPageTest extends UseCaseBase {
 
     @Test
     public void mainPageLoadedTest(){
-        Boolean success=MainPage.isLogoVisible();
+        boolean success=mainPage.isLogoVisible();
         assertTrue(success);
     }
 
     @Test
     public void loginPageLoadTest(){
-        LoginPage loginPage=mainPage.openLoginPage();
+       LoginPage loginPage=mainPage.navigateToLoginPage();
         boolean isLoaded=loginPage.isLoginHeaderVisible();
             assertTrue(isLoaded);
         }
 
 
     @Test
-    public void createNewAccountTest() {
-        mainPage.openLoginPage();
-        loginPage.createAccountButton();
-       createAccountForm.inputName("Julia");
-       createAccountForm.inputLastName("Kelman");
-       createAccountForm.inputEmailField("jk@gmail.com");
-       createAccountForm.inputPasswordField("Abc123");
-       createAccountForm.clickCreateButton();
-        boolean isVisible=createAccountForm.newAccountPageHeaderVisible();
-        assertTrue(isVisible);
-    }
-
-    @Test
     public void userLoginTest() {
+        LoginPage loginPage=mainPage.navigateToLoginPage();
         loginPage.emailFieldInput("jk@gmail.com");
         loginPage.passwordInputField("Abc123");
-        loginPage.createAccountButton();
+        loginPage.clickSignIn();
         boolean isVisible=loginPage.isLoginHeaderVisible();
         assertTrue(isVisible);
     }
@@ -67,10 +55,24 @@ public class mainPageTest extends UseCaseBase {
     @Test
     public void incorrectLoginTest() {
         //incorrect email:
-        loginPage.emailFieldInput("jk@gamil.ca");
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        loginPage.emailFieldInput("jk@.gamil.ca");
         loginPage.passwordInputField("Abc123");
-        loginPage.createAccountButton();
+        loginPage.clickSignIn();
         boolean isVisible=loginPage.isIncorrectErrorVisible();
+        assertTrue(isVisible);
+    }
+
+    @Test
+    public void createNewAccountTest() {
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        CreateAccountForm createAccountForm=loginPage.navigateToCreateAccountPage();
+        createAccountForm.inputName("Julia");
+        createAccountForm.inputLastName("Kelman");
+        createAccountForm.inputEmailField("jk@gmail.com");
+        createAccountForm.inputPasswordField("Abc123");
+        createAccountForm.clickCreateButton();
+        boolean isVisible=createAccountForm.newAccountPageHeaderVisible();
         assertTrue(isVisible);
     }
 
@@ -79,6 +81,8 @@ public class mainPageTest extends UseCaseBase {
     @ParameterizedTest
     @ValueSource(strings= {"", "98", "%^&", "  ", "123ggg", "$$$$kkkkk", "hhfjhjfjdnfsjbgjdbgfjbjkkfnkdsfkkfmlksfdmlksfnkflnklfngkfnkdsfnkfdnklsd" })
     public void firstNameInputTest(String a) {
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        CreateAccountForm createAccountForm=loginPage.navigateToCreateAccountPage();
         createAccountForm.inputName(a);
         createAccountForm.inputLastName("Kelman");
         createAccountForm.inputEmailField("jk@gmail.com");
@@ -94,6 +98,8 @@ public class mainPageTest extends UseCaseBase {
     @ParameterizedTest
     @ValueSource(strings= {"", "98", "%^&", "  ", "123ggg", "$$$$kkkkk", "hhfjhjfjdnfsjbgjdbgfjbjkkfnkdsfkkfmlksfdmlksfnkflnklfngkfnkdsfnkfdnklsd" })
     public void lastNameInputTest(String a) {
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        CreateAccountForm createAccountForm=loginPage.navigateToCreateAccountPage();
         createAccountForm.inputName("Jul");
         createAccountForm.inputLastName(a);
         createAccountForm.inputEmailField("jk@gmail.com");
@@ -108,6 +114,8 @@ public class mainPageTest extends UseCaseBase {
     @ParameterizedTest
     @ValueSource(strings= {"jk@gmailcom", "jkgmail.com", ".jk@gmail.com", "jk@.com"})
     public void emailNameInputTest(String a){
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        CreateAccountForm createAccountForm=loginPage.navigateToCreateAccountPage();
         createAccountForm.inputName("Jul");
         createAccountForm.inputLastName("Kel");
         createAccountForm.inputEmailField(a);
@@ -115,17 +123,26 @@ public class mainPageTest extends UseCaseBase {
         createAccountForm.clickCreateButton();
         boolean isVisible=createAccountForm.emptyEmailError();
         assertTrue(isVisible);
+
+        //accepts .jk@gmail.com, although it starts with "."
     }
 
     @Test
     public void sameEmailRegister(){
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        CreateAccountForm createAccountForm=loginPage.navigateToCreateAccountPage();
+        createAccountForm.inputName("Jul");
+        createAccountForm.inputLastName("Kel");
+        createAccountForm.inputEmailField("jk@gmail.com");
+        createAccountForm.inputPasswordField("Abc123");
+        createAccountForm.clickCreateButton();
         boolean isVisible=createAccountForm.sameEmailRegistr();
         assertTrue(isVisible);
     }
 
     @Test
     public void forgotPasswordTest() {
-        mainPage.openLoginPage();
+        LoginPage loginPage=mainPage.navigateToLoginPage();
         boolean isVisible=loginPage.forgotPasswordButton();
        assertTrue(isVisible);
     }
@@ -134,6 +151,8 @@ public class mainPageTest extends UseCaseBase {
     @ParameterizedTest
     @ValueSource(strings= {"Abc123", "Abc123$", "abcdefg", "123456","$$$$$$$$", "", "  "})
     public void passwordInputTest(String a) {
+        LoginPage loginPage=mainPage.navigateToLoginPage();
+        CreateAccountForm createAccountForm=loginPage.navigateToCreateAccountPage();
         createAccountForm.inputName("Jul");
         createAccountForm.inputLastName("Kel");
         createAccountForm.inputEmailField("jk@gmail.com");
@@ -151,7 +170,7 @@ public class mainPageTest extends UseCaseBase {
 
     @Test
     public void cartPageTest(){
-        mainPage.openCartPage();
+        CartPage cartPage=mainPage.openCartPage();
         boolean isVisible=cartPage.isCartHeaderVisible();
         assertTrue(isVisible);
     }
@@ -160,14 +179,6 @@ public class mainPageTest extends UseCaseBase {
     public void countryTest() {
         boolean isVisible=cartPage.isBRLbookVisible();
         assertTrue(isVisible);
-    }
-
-    @Test
-    public void autoCountryTest() {
-        CartPage cartPage=mainPage.chooseAutoCurrency();
-        String canada=cartPage.isCandaianFlagVisible();
-        assertEquals(canada,cartPage);
-        System.out.println(" ");
     }
 
     }

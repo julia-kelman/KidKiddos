@@ -19,6 +19,10 @@ public class  MainPage extends BasePage{
     public void navigateToMainPage(){
         webDriver.get(Consts.mainURL);
     }
+    public LoginPage navigateToLoginPage() {
+        clickElementByXpath(loginIcon);
+        return new LoginPage();
+    }
 
     public static boolean isLogoVisible() {
         Boolean isVisible=elementExists(logo);
