@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
+
 public class BasePage {
 
     protected static WebDriver webDriver;
@@ -25,6 +27,15 @@ public class BasePage {
         element=webDriver.findElement(By.xpath(xpath));
         return element;
     }
+
+//    public static WebElement findElementWith(String xpath){
+//        WebElement nearElement;
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+//        nearElement = webDriver.findElement(with(By.xpath(xpath)));
+//    }
+
+
+
 
     public static void clickElementByXpath(String xpath){
         findElementByXpath(xpath).click();

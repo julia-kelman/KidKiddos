@@ -1,11 +1,19 @@
 import Pages.*;
 import Pages.CreateAccountForm;
 import Utlis.UseCaseBase;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,6 +32,11 @@ public class mainPageTest extends UseCaseBase {
     @BeforeEach
     public void beforeTest(){
         mainPage.navigateToMainPage();
+    }
+
+    @Test
+    public void captureElement() throws IOException {
+        mainPage.logoCapture();
     }
 
 
@@ -162,11 +175,7 @@ public class mainPageTest extends UseCaseBase {
         assertTrue(isVisible);
     }
 
-    @Test
-    public void flagsMenuTest(){
-        boolean isVisible=mainPage.openCurrencyMenu();
-        assertTrue(isVisible);
-    }
+
 
     @Test
     public void cartPageTest(){
@@ -176,9 +185,29 @@ public class mainPageTest extends UseCaseBase {
     }
 
     @Test
+    public void flagsMenuTest(){
+        boolean isVisible=mainPage.openCurrencyMenu();
+        assertTrue(isVisible);
+    }
+
+    @Test
+    public void autoCurrencyTest(){
+        boolean isVisible=mainPage.chooseAutoCurrency();
+        assertTrue(isVisible);
+    }
+
+    @Test
     public void countryTest() {
         boolean isVisible=cartPage.isBRLbookVisible();
         assertTrue(isVisible);
+    }
+
+
+
+    @Test
+    public void logsTest(){
+        CartPage cartPage=mainPage.openCartPage();
+        Assertions.assertNotEquals(Level.SEVERE, cartPage.logs());
     }
 
     }
