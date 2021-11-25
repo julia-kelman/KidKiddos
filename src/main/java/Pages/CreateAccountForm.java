@@ -1,5 +1,12 @@
 package Pages;
 
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+
+import java.util.List;
+import java.util.logging.Level;
+
 import static Pages.LoginPage.createAccountHeader;
 
 public class CreateAccountForm extends BasePage {
@@ -58,6 +65,19 @@ public class CreateAccountForm extends BasePage {
 
     public boolean errorLoginVisible(){
         return elementExists(errorLogin);
-        //no error appeared when
     }
+
+    public Level logsCreateAccountPage() {
+        LogEntries entries = webDriver.manage().logs().get(LogType.BROWSER);
+        List<LogEntry> logim = entries.getAll();
+
+        for (LogEntry e : logim) {
+            System.out.println("Message" + e.getMessage());
+            System.out.println("Level" + e.getLevel());
+            e.getLevel();
+        }
+        return (Level) logim;
+    }
+
+
 }

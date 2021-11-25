@@ -24,11 +24,6 @@ public class CartPage extends BasePage{
         return elementExists(currancyBRL);
     }
 
-    public boolean isCandaianFlagVisible(){
-        return elementExists(canadaFlag);
-    }
-
-
 
     public Level logs() {
         LogEntries entries = webDriver.manage().logs().get(LogType.BROWSER);
@@ -37,7 +32,7 @@ public class CartPage extends BasePage{
         for (LogEntry e : logim) {
             System.out.println("Message" + e.getMessage());
             System.out.println("Level" + e.getLevel());
-            Level level= e.getLevel();
+            e.getLevel();
         }
         return (Level) logim;
     }
