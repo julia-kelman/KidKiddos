@@ -13,8 +13,6 @@ public class CartPage extends BasePage{
     public static final String currancyBRL="//span[text()='BRL'])";
     public static final String canadaFlag="//span[text()=' CAD']";
 
-
-
     public boolean isCartHeaderVisible(){
 
         return elementExists(cartPageHeader);

@@ -26,6 +26,8 @@ public class  MainPage extends BasePage{
     private static final String cartLogo="//a[@class='site-header__cart']";
     private static final String flagsMenu="//ul[@class='currency-converter-chooser skiptranslate notranslate']";
      private static final String BRLflag="//li[@class='currency-converter-chooser-item cbb-currency-code-BRL']";
+     private static final String booksByLanguage="//a[@aria-controls='SiteNavLabel-books-by-language']";
+     private static final String englishBooks="//a[text()='English Only']";
 
     public boolean openCurrencyMenu(){
         WebElement cartButton=findElementByXpath(cartLogo);
@@ -65,6 +67,12 @@ public class  MainPage extends BasePage{
         return new CartPage();
     }
 
+    public EnglishPage openEnglishPage(){
+        clickElementByXpath(booksByLanguage);
+        clickElementByXpath(englishBooks);
+        return new EnglishPage();
+    }
+
     public void chooseBRLcountry() throws IOException {
         WebElement flagButton=findElementByXpath(countryLogo);
         flagButton.click();
@@ -84,6 +92,8 @@ public class  MainPage extends BasePage{
     File file=cadFlag.getScreenshotAs(OutputType.FILE);
     FileUtils.copyFile(file, new File("autoCadFlag.png"));
     }
+
+
 
     public Level logsMainPage() {
         LogEntries entries = webDriver.manage().logs().get(LogType.BROWSER);
