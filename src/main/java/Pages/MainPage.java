@@ -28,6 +28,7 @@ public class  MainPage extends BasePage{
      private static final String BRLflag="//li[@class='currency-converter-chooser-item cbb-currency-code-BRL']";
      private static final String booksByLanguage="//a[@aria-controls='SiteNavLabel-books-by-language']";
      private static final String englishBooks="//a[text()='English Only']";
+    private static final String hebrewBooks="//a[text()='Hebrew - עִבְרִית']";
 
     public boolean openCurrencyMenu(){
         WebElement cartButton=findElementByXpath(cartLogo);
@@ -71,6 +72,12 @@ public class  MainPage extends BasePage{
         clickElementByXpath(booksByLanguage);
         clickElementByXpath(englishBooks);
         return new EnglishPage();
+    }
+
+    public HebrewPage openHebrewPage(){
+        clickElementByXpath(booksByLanguage);
+        clickElementByXpath(hebrewBooks);
+        return new HebrewPage();
     }
 
     public void chooseBRLcountry() throws IOException {

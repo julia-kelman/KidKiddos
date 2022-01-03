@@ -12,7 +12,8 @@ public class EnglishPage extends BasePage{
     public static final String fiveItemsInCart="//div[@id='CartCount']//descendant::*[text()='5']";
     public static final String addBooksField="//input[@id='Quantity']";
     public static final String addBooksArrows="//form[@action='/cart/add']";
-    public static final String twoItemsInCart="//div[@id='CartCount']//descendant::*[text()='2']";
+
+
 
 
     public boolean isEnglishHeaderVisible(){
@@ -32,16 +33,24 @@ public class EnglishPage extends BasePage{
 
     public boolean addBooksToCart(){
        findElementByXpath(addBooksField).clear();
-        findElementByXpath(addBooksField).sendKeys("5");
+        findElementByXpath(addBooksField).sendKeys("a");
         clickElementByXpath(addToCartButton);
         return elementExists(fiveItemsInCart);
     }
-//failed
-    public boolean addBooksToCartByArrows(){
-        clickElementByXpath(addBooksArrows);
+//FIALED A????
+    public boolean addBooksToCartNegative(String a){
+        findElementByXpath(addBooksField).clear();
+        findElementByXpath(addBooksField).sendKeys(a);
         clickElementByXpath(addToCartButton);
-        return elementExists(twoItemsInCart);
+        return elementExists(fiveItemsInCart);
     }
+
+//failed
+//    public boolean addBooksToCartByArrows(){
+//        clickElementByXpath(addBooksArrows);
+//        clickElementByXpath(addToCartButton);
+//        return elementExists(twoItemsInCart);
+//    }
 
 
 

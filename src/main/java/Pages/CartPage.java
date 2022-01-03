@@ -12,6 +12,7 @@ public class CartPage extends BasePage{
     public static final String cartPageHeader="//h1[text()='Your cart']";
     public static final String currancyBRL="//span[text()='BRL'])";
     public static final String canadaFlag="//span[text()=' CAD']";
+    public static final String twoItems="//div[@id='CartCount']//descendant::*[text()='2']";
 
     public boolean isCartHeaderVisible(){
 
@@ -21,6 +22,12 @@ public class CartPage extends BasePage{
     public boolean isBRLbookVisible(){
         return elementExists(currancyBRL);
     }
+
+    public boolean isTwoItemsInCartVisible(){
+        return elementExists(twoItems);
+
+    }
+
 
 
     public Level logs() {

@@ -35,8 +35,6 @@ public class BasePage {
 //    }
 
 
-
-
     public static void clickElementByXpath(String xpath){
         findElementByXpath(xpath).click();
     }
