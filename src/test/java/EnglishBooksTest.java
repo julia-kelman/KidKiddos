@@ -64,7 +64,7 @@ public class EnglishBooksTest extends UseCaseBase{
     public void addEnglishBooksToCartNegativeTest(String a){
         EnglishPage englishPage=mainPage.openEnglishPage();
         englishPage.clickOnBook();
-        boolean isVisible=englishPage.addBooksToCartNegative("a");
+        boolean isVisible=englishPage.addBooksToCartNegative(a);
         assertTrue(isVisible);
     }
 
